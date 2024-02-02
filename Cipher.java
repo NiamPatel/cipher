@@ -5,9 +5,18 @@
 
 import java.util.Scanner;
 
-public class LinkedList{
-    
-}
+public class Node { 
+    char s; 
+    Node prev; 
+    Node next; 
+  
+    public Node(char s) 
+    { 
+        this.s = s; 
+        this.prev = null; 
+        this.next = null; 
+    } 
+} 
 
 public class Cipher {
     private static Scanner scanner = new Scanner(System.in);
@@ -88,9 +97,25 @@ public class Cipher {
     {
         System.out.println("Welcome to Cipher! Please enter all text as a single line, substituting \\n for newline characters.");
         boolean done = false;
+        String command;
         while (!done) {
-            System.out.print("Would you like to encipher, decipher, crack, or quit? ");
-            String command = scanner.nextLine();
+            while (true){
+                System.out.print("Would you like to encipher, decipher, crack, or quit? ");
+                command = scanner.nextLine();
+                if (command.equals("encipher")){
+                    break;
+                }
+                else if (command.equals("decipher")){
+                    break;
+                }
+                else if (command.equals("crack")){
+                    break;
+                }
+                else if (command.equals("quit")){
+                    done = true;
+                    break;
+                }
+            }
             /* TODO: Add code to check which command the user entered, prompt for
              * additional information as needed (offset, blocksize, text for encipher and decipher,
              * text for crack), call other methods to perform the selected operation, and print the result.

@@ -1,4 +1,4 @@
-/* Name: <your name goes here>
+/* Name: jerry and Niam
  * CS3 project 1: Cipher, Spring 2024, updated 1/28/2024
  * Cipher class
  */

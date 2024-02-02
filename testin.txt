@@ -1,0 +1,61 @@
+encipher
+3
+2
+Test offset three, block length two.
+decipher
+3
+2
+hWwvr;iihv;wkwhu.he;ronfo;qhwj;kzwAr
+encipher
+0
+1
+Test unchanged.
+decipher
+0
+1
+Test unchanged.
+encipher
+4
+3
+Test unrecognized characters like *.
+decipher
+4
+3
+wiXy:xivrksg;mr:hielggevvixp:wiomB$:
+encipher
+59
+1000
+Test max offset and huge block length.
+decipher
+59
+1000
+:gsfmdkzjbnkazdftgzcmZzsdreenzwZlzsrdS
+encipher
+3
+2
+Test \n,;:.!? and ABYZ and abyz.
+decipher
+3
+2
+hWwv:;!.A?CBd;gqD;bE;cqd;ged,\nA
+encipher
+0
+5
+Test reverse of a partial block, at the end.
+decipher
+0
+5
+ tseTreverfo esap a laitrcolb ta ,k eht .dne
+encipher
+1
+1
+Test offset one.
+decipher
+1
+1
+Uftu\npggtfu\npof!
+crack
+rHA?tiHJzrp!HwrxwD?tx t!B:H,;HApBAr,;rH,;xxA,tC,N?,;
+crack
+jwmy.f.xn.jwjm\n;sf.jhnyxzosNjb.Cjwjm\n;wj j.jhnyxzo.ty.yfqgfufhxjsn.sf.sn.ymlzfh.jwf.ijny.?;ynqfzyzr.kt.pwt\nyjs.jyxji.kt.ysjrwfl.jqlsnx.f.sn.C;sn
+quit

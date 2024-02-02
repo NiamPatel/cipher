@@ -1,0 +1,23 @@
+Welcome to Cipher! Please enter all text as a single line, substituting 
+ for newline characters.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: hWwvr;iihv;wkwhu.he;ronfo;qhwj;kzwAr
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test offset three, block length two.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: Test unchanged.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test unchanged.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: wiXy:xivrksg;mr:hielggevvixp:wiomB$:
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test unrecognized characters like $.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: :gsfmdkzjbnkazdftgzcmZzsdreenzwZlzsrdS
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test max offset and huge block length.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: hWwv:;!.A?CBd;gqD;bE;cqd;ged,
+A
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test 
+,;:.!? and ABYZ and abyz.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher:  tseTreverfo esap a laitrcolb ta ,k eht .dne
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test reverse of a partial block, at the end.
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to encipher: Uftu
+pggtfu
+pof!
+Would you like to encipher, decipher, crack, or quit? Please enter an offset (0-59): Please enter a block size (>= 1): Please enter text to decipher: Test offset one.
+Would you like to encipher, decipher, crack, or quit? Please enter text to crack: Test crack, which relies on punctuation conventions!
+Would you like to encipher, decipher, crack, or quit? Please enter text to crack: <fill this in when you crack it>
+Would you like to encipher, decipher, crack, or quit? 

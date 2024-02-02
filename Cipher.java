@@ -1,9 +1,13 @@
-/* Name: jerry and Niam
+/* Name: <your name goes here>
  * CS3 project 1: Cipher, Spring 2024, updated 1/28/2024
  * Cipher class
  */
 
 import java.util.Scanner;
+
+public class LinkedList{
+    
+}
 
 public class Cipher {
     private static Scanner scanner = new Scanner(System.in);
@@ -31,6 +35,14 @@ public class Cipher {
      * @param s clear text string to encipher
      * @return enciphered string
      */
+
+    private String offset(String enciphered, int n){
+        String new = ""*enciphered.length();
+        for(int i = n, i < n + enciphered.length(); i++) {
+            
+        }
+        
+    }
     public String encipher(String clear) {
         char[] arr = clear.toCharArray();
 

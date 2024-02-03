@@ -1,3 +1,4 @@
+Public String wordsreturn{
 String[] words = {
   "",
   "OK",
@@ -107567,3 +107568,5 @@ String[] words = {
   "\ufffdtui",
   "\ufffdtuis"
   }
+  return words;
+}

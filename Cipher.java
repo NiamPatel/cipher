@@ -8,9 +8,17 @@
 
 
  public class Cipher {
+  public String getoriginal()
+  {
+   return original;
+  }
+  public String setoriginal(newitem)
+  {
+   this.original = newitem;
+  }
      private static Scanner scanner = new Scanner(System.in);
      private char[] characters; // supported characters in specified order
-     public String original; //make private later, and add a get/set function
+     private String original; //make private later, and add a get/set function
      // TODO: Declare more private attributes here
  
      /* precondition: 0 <= offset < 60, 1 <= blockSize */

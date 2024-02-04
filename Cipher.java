@@ -1,12 +1,3 @@
-/* Name: <your name goes here>
- * CS3 project 1: Cipher, Spring 2024, updated 1/28/2024
- * Cipher class
- */
-
- import java.util.Scanner;
- import java.util.Arrays;
-
-
  public class Cipher {
      public String getoriginal()
      {
@@ -16,7 +7,6 @@
      {
      this.original = new_string;
      }
-     private static Scanner scanner = new Scanner(System.in);
      private char[] characters; // supported characters in specified order
      private String original; //make private later, and add a get/set function
      // TODO: Declare more private attributes here
@@ -43,6 +33,7 @@
       */
  
      public String offset(int displacement, String new_string){ //change to private later
+        System.out.println(1);
         if (displacement < 0){
             displacement = displacement%60 + 60;
         }
@@ -59,7 +50,7 @@
      }
  
      public String blockReverse(int blockSize, String new_string) {
-        
+        System.out.println(2);
         char[] stringArr = new_string.toCharArray();
         char[] modifiedArr = new char[stringArr.length];
         
@@ -69,8 +60,6 @@
             // Calculate the start and end indices for the current block
             int start = i * blockSize;
             int end = Math.min((i + 1) * blockSize, stringArr.length) - 1;
-            System.out.println(start);
-            System.out.println(end);
             // Reverse the characters in the current block
             for (int j = start; j <= end; j++) {
                 modifiedArr[j] = stringArr[end - (j - start)];
@@ -80,17 +69,17 @@
         return result;
     }
     
-     public String cipher(int displacement, int blockSize, Boolean order) {
+     public String cipher(int displacement, int blockSize, int order) {
+        System.out.println(3);
          String modified = "";
-         if (order){
+         if (order != 0){
             modified = offset(displacement, this.original);
             modified = blockReverse(blockSize, modified);
          } else {
-            modified = blockReverse(blockSize, modified);
+            modified = blockReverse(blockSize, this.original);
             modified = offset(displacement, modified);
          }
  
-         
          return modified;
      }
 

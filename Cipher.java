@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+ 
  public class Cipher {
      public String getoriginal()
      {
@@ -33,7 +37,6 @@
       */
  
      public String offset(int displacement, String new_string){ //change to private later
-        System.out.println(1);
         if (displacement < 0){
             displacement = displacement%60 + 60;
         }
@@ -50,7 +53,6 @@
      }
  
      public String blockReverse(int blockSize, String new_string) {
-        System.out.println(2);
         char[] stringArr = new_string.toCharArray();
         char[] modifiedArr = new char[stringArr.length];
         
@@ -70,7 +72,6 @@
     }
     
      public String cipher(int displacement, int blockSize, int order) {
-        System.out.println(3);
          String modified = "";
          if (order != 0){
             modified = offset(displacement, this.original);
@@ -83,18 +84,35 @@
          return modified;
      }
 
- 
+     
      public String crack()
      {
-         System.out.println(this.original);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
+            // Write an empty string to clear the file
+            writer.write("");
+
+            System.out.println("Successfully cleared the file.");
+        } catch (IOException e) {
+            System.err.println("Error clearing the file: " + e.getMessage());
+        }
+         //System.out.println(this.original);
          String bestDeciphered = null;
- 
-         /* TODO: add code here to construct Cipher instances with all reasonable
-          * offsets and block lengths, using each to decipher the string, giving each
-          * a score based on punctuation/capitalization conventions, keeping track of
-          * the best deciphered string and score.
-          */
- 
+         
+         for (int i = 0; i <= 1; i++){
+            for (int j = 0; j < this.original.length(); j++){
+                for (int k = 1; k < this.original.length(); k++){
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("all_crack.txt", true))) {
+                        // Write the content to the file
+                        writer.write(cipher(j, k, i));
+                        writer.newLine();
+                    } catch (IOException e) {
+                        System.err.println("Error writing to the file: " + e.getMessage());
+                    }
+                }
+            }
+
+         }
+         
          return bestDeciphered;
      }
  

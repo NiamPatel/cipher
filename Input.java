@@ -9,7 +9,6 @@ public class Input {
          String command;
          Cipher mainCipher = new Cipher("");
          Scanner scanner = new Scanner(System.in); 
-         Scanner banner = new Scanner(System.in)// Declare a local scanner for user input
 
          while (!done) {
              System.out.println("Enter the enciphered/deciphered string:");
@@ -22,16 +21,16 @@ public class Input {
                  
                  if (command.equals("encipher")){
                     System.out.println("displacemnt int");
-                     int a= scanner.nextLine();
+                     int a= banner.nextLine();
                      if (a < 0){
                          System.out.println("displacemnt + int");
-                     int a= scanner.nextLine();
+                     int a= banner.nextLine();
                      }
                                          System.out.println("block size int");
 
-                    int b=scanner.nextLine();
+                    int b=banner.nextLine();
                                          System.out.println("order true or false");
-                    boolean c=scanner.nextLine();
+                    boolean c=banner.nextLine();
                     System.out.println(mainCipher.encipher(a, b, c));
                  }
                  else if (command.equals("decipher")){

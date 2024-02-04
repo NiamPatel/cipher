@@ -42,48 +42,56 @@
       * @return enciphered string
       */
  
-     public char[] offset(int displacement){ //change to private later
+     public String offset(int displacement, String new_string){ //change to private later
         //copy array
-         char[] originalArray = this.original.toCharArray();
-         char[] modified = new char[originalArray.length];
+         char[] stringArr = new_string.toCharArray();
+         char[] modifiedArr = new char[stringArr.length];
         
          //offset (correct)
 
-         for (int i = 0; i < originalArray.length; i++){
-             modified[i] = originalArray[(i+displacement)%(originalArray.length)];
+         for (int i = 0; i < stringArr.length; i++){
+             modifiedArr[i] = stringArr[(i+displacement)%(stringArr.length)];
          }
 
-         return modified;
+         String result = new String(modifiedArr);
+         return result;
      }
  
-     public char[] blockReverse(int blockSize) {
-        // Copy array
-        char[] originalArray = this.original.toCharArray();
-        char[] modified = new char[originalArray.length];
+     public String blockReverse(int blockSize, String new_string) {
+        
+        char[] stringArr = new_string.toCharArray();
+        char[] modifiedArr = new char[stringArr.length];
+        
+        
     
-        for (int i = 0; i < Math.ceil(originalArray.length / blockSize); i++) {
+        for (int i = 0; i < Math.ceil((double)stringArr.length / blockSize); i++) {
             // Calculate the start and end indices for the current block
             int start = i * blockSize;
-            int end = Math.min((i + 1) * blockSize, originalArray.length) - 1;
-    
+            int end = Math.min((i + 1) * blockSize, stringArr.length) - 1;
+            System.out.println(start);
+            System.out.println(end);
             // Reverse the characters in the current block
             for (int j = start; j <= end; j++) {
-                modified[j] = originalArray[end - (j - start)];
+                modifiedArr[j] = stringArr[end - (j - start)];
             }
         }
-    
-        return modified;
+        String result = new String(modifiedArr);
+        return result;
     }
     
  
      
  
      
-     public char[] encipher() {
-         char[] originalArray = this.original.toCharArray();
-         char[] modified = new char[originalArray.length];
- 
-         // TODO: add code here to encipher arr in place
+     public String encipher(int displacement, int blockSize, Boolean order) {
+         String modified = "";
+         if (order){
+            modified = offset(displacement, this.original);
+            modified = blockReverse(blockSize, modified);
+         } else {
+            modified = blockReverse(blockSize, modified);
+            modified = offset(displacement, modified);
+         }
  
          
          return modified;

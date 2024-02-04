@@ -1,4 +1,4 @@
-/* Name:jerry and niam
+/* Name: <your name goes here>
  * CS3 project 1: Cipher, Spring 2024, updated 1/28/2024
  * Cipher class
  */
@@ -42,12 +42,13 @@
       * @return enciphered string
       */
  
-     private String offset(int displacement, String new_string){ //change to private later
+     public String offset(int displacement, String new_string){ //change to private later
+        if (displacement < 0){
+            displacement = displacement%60 + 60;
+        }
         //copy array
          char[] stringArr = new_string.toCharArray();
          char[] modifiedArr = new char[stringArr.length];
-        
-         //offset (correct)
 
          for (int i = 0; i < stringArr.length; i++){
              modifiedArr[i] = stringArr[(i+displacement)%(stringArr.length)];
@@ -57,7 +58,7 @@
          return result;
      }
  
-     private String blockReverse(int blockSize, String new_string) {
+     public String blockReverse(int blockSize, String new_string) {
         
         char[] stringArr = new_string.toCharArray();
         char[] modifiedArr = new char[stringArr.length];
@@ -79,11 +80,7 @@
         return result;
     }
     
- 
-     
- 
-     
-     public String encipher(int displacement, int blockSize, Boolean order) {
+     public String cipher(int displacement, int blockSize, Boolean order) {
          String modified = "";
          if (order){
             modified = offset(displacement, this.original);
@@ -96,26 +93,8 @@
          
          return modified;
      }
- 
-     /**
-      * The decipher method returns the result of deciphering the given enciphered string
-      * @param enciphered enciphered string to decipher
-      * @return clear text deciphered string
-      */
-     public char[] decipher() {
-        char[] originalArray = this.original.toCharArray();
-        char[] modified = new char[originalArray.length];
- 
-         // TODO: add code here to decipher arr in place
 
-         return modified;
-     }
  
-     /**
-      * The static crack method attempts to decipher a string that was enciphered with unknown offset and block size
-      * @param enciphered
-      * @return
-      */
      public String crack()
      {
          System.out.println(this.original);

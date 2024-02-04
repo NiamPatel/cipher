@@ -8,14 +8,14 @@
 
 
  public class Cipher {
-  public String getoriginal()
-  {
-   return original;
-  }
-  public String setoriginal(newitem)
-  {
-   this.original = newitem;
-  }
+     public String getoriginal()
+     {
+     return original;
+     }
+     public void setoriginal(String new_string)
+     {
+     this.original = new_string;
+     }
      private static Scanner scanner = new Scanner(System.in);
      private char[] characters; // supported characters in specified order
      private String original; //make private later, and add a get/set function
@@ -56,22 +56,25 @@
          return modified;
      }
  
-     public char[] blockReverse(int blockSize){ //change to private later
-        //copy array
+     public char[] blockReverse(int blockSize) {
+        // Copy array
         char[] originalArray = this.original.toCharArray();
         char[] modified = new char[originalArray.length];
-
-        //offsest (unfinished)
-     
-         for(int i = 0; i < Math.ceil(originalArray.length/blockSize); i++){
-             for(int j = Math.min(i*blockSize, originalArray.length); j < Math.min(((i+1)*blockSize), originalArray.length); j++){
-                 System.out.println(j);
-             }
-         }
-         
- 
-         return modified;
-     }
+    
+        for (int i = 0; i < Math.ceil(originalArray.length / blockSize); i++) {
+            // Calculate the start and end indices for the current block
+            int start = i * blockSize;
+            int end = Math.min((i + 1) * blockSize, originalArray.length) - 1;
+    
+            // Reverse the characters in the current block
+            for (int j = start; j <= end; j++) {
+                modified[j] = originalArray[end - (j - start)];
+            }
+        }
+    
+        return modified;
+    }
+    
  
      
  

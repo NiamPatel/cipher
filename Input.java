@@ -8,11 +8,13 @@ public class Input {
          boolean done = false;
          String command;
          Cipher mainCipher = new Cipher("");
-         Scanner scanner = new Scanner(System.in);  // Declare a local scanner for user input
+         Scanner scanner = new Scanner(System.in); 
+         Scanner banner = new Scanner(System.in)// Declare a local scanner for user input
 
          while (!done) {
              System.out.println("Enter the enciphered/deciphered string:");
              String input = scanner.nextLine();
+             int input = banner.nextLine();
              mainCipher.setoriginal(input);
              while (true){
                  System.out.print("Would you like to encipher, decipher, crack, or quit? ");

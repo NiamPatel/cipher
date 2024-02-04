@@ -19,7 +19,18 @@ public class Input {
                  command = scanner.nextLine();
                  
                  if (command.equals("encipher")){
-                    System.out.println(mainCipher.encipher(0, 3, true));
+                    System.out.println("displacemnt int");
+                     int a= scanner.nextLine();
+                     if (a < 0){
+                         System.out.println("displacemnt + int");
+                     int a= scanner.nextLine();
+                     }
+                                         System.out.println("block size int");
+
+                    int b=scanner.nextLine();
+                                         System.out.println("order true or false");
+                    boolean c=scanner.nextLine();
+                    System.out.println(mainCipher.encipher(a, b, c));
                  }
                  else if (command.equals("decipher")){
                      System.out.println(mainCipher.decipher());

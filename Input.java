@@ -13,38 +13,27 @@ public class Input {
          while (!done) {
              while (true){
                  System.out.print("Would you like to encipher, decipher, crack, or quit? ");
+                 System.out.println("Enter the fucking string");
+                     String input = scanner.nextLine();
+                     mainCipher.setoriginal = input;
                  command = scanner.nextLine();
                  if (command.equals("encipher")){
-                     System.out.println("Enter your string");
-                     String input = scanner.nextLine();
-                     mainCipher.original = input;
                      mainCipher.encipher();
                  }
                  else if (command.equals("decipher")){
-                     System.out.println("Enter your string");
-                     String input = scanner.nextLine();
-                     mainCipher.original = input;
                      mainCipher.decipher();
                  }
                  else if (command.equals("crack")){
-                     System.out.println("Enter your string");
-                     String input = scanner.nextLine();
-                     mainCipher.original = input;
                      mainCipher.crack();
                      break;
                  }
                  else if (command.equals("offset")){
-                    System.out.println("Enter your string");
-                    String input = scanner.nextLine();
                     System.out.println("Enter your offset");
                     String offset = scanner.nextLine();
-                    mainCipher.original = input;
                     System.out.println(mainCipher.offset(Integer.parseInt(offset)));
                     break;
                 }
                 else if (command.equals("blockReverse")){
-                    System.out.println("Enter your string");
-                    String input = scanner.nextLine();
                     System.out.println("Enter your blockSize");
                     String blockSize = scanner.nextLine();
                     mainCipher.original = input;

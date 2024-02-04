@@ -13,10 +13,12 @@ public class Input {
          while (!done) {
              while (true){
                  System.out.print("Would you like to encipher, decipher, crack, or quit? ");
+                 if true{
                  System.out.println("Enter the fucking string");
                      String input = scanner.nextLine();
                      mainCipher.setoriginal = input;
                  command = scanner.nextLine();
+                 }
                  if (command.equals("encipher")){
                      mainCipher.encipher();
                  }

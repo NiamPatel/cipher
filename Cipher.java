@@ -1,4 +1,4 @@
-/* Name: <your name goes here>
+/* Name:jerry and niam
  * CS3 project 1: Cipher, Spring 2024, updated 1/28/2024
  * Cipher class
  */
@@ -42,7 +42,7 @@
       * @return enciphered string
       */
  
-     public String offset(int displacement, String new_string){ //change to private later
+     private String offset(int displacement, String new_string){ //change to private later
         //copy array
          char[] stringArr = new_string.toCharArray();
          char[] modifiedArr = new char[stringArr.length];
@@ -57,7 +57,7 @@
          return result;
      }
  
-     public String blockReverse(int blockSize, String new_string) {
+     private String blockReverse(int blockSize, String new_string) {
         
         char[] stringArr = new_string.toCharArray();
         char[] modifiedArr = new char[stringArr.length];

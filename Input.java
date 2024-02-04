@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 public class Input {
     public static void main(String[] args)
      {
@@ -13,28 +12,20 @@ public class Input {
          while (!done) {
              System.out.println("Enter the enciphered/deciphered string:");
              String input = scanner.nextLine();
-             int input = banner.nextLine();
              mainCipher.setoriginal(input);
              while (true){
-                 System.out.print("Would you like to encipher, decipher, crack, or quit? ");
+                 System.out.print("Would you like to (en/de)cipher, crack, or quit? ");
                  command = scanner.nextLine();
                  
-                 if (command.equals("encipher")){
-                    System.out.println("displacemnt int");
-                     int a= banner.nextLine();
-                     if (a < 0){
-                         System.out.println("displacemnt + int");
-                     int a= banner.nextLine();
-                     }
-                                         System.out.println("block size int");
-
-                    int b=banner.nextLine();
-                                         System.out.println("order true or false");
-                    boolean c=banner.nextLine();
-                    System.out.println(mainCipher.encipher(a, b, c));
-                 }
-                 else if (command.equals("decipher")){
-                     System.out.println(mainCipher.decipher());
+                 if (command.equals("cipher")){
+                    System.out.println("Input displacement(int), blockSize(int), order(int)");
+                     String parameters = scanner.nextLine();
+                     String parameterArr[] = parameters.split(" ");
+                     int displacement = Integer.parseInt(parameterArr[0]); //has to be int
+                     int blockSize = Integer.parseInt(parameterArr[1]);    //has to be int, between 1 and string length
+                     int order = Integer.parseInt(parameterArr[2]);        //has to be int
+                     System.out.println(mainCipher.cipher(displacement, blockSize, order));
+                     break;
                  }
                  else if (command.equals("crack")){
                      mainCipher.crack();

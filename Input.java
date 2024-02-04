@@ -11,37 +11,23 @@ public class Input {
          Scanner scanner = new Scanner(System.in);  // Declare a local scanner for user input
 
          while (!done) {
+             System.out.println("Enter the enciphered/deciphered string:");
+             String input = scanner.nextLine();
+             mainCipher.setoriginal(input);
              while (true){
                  System.out.print("Would you like to encipher, decipher, crack, or quit? ");
-                 if true{
-                 System.out.println("Enter the fucking string");
-                     String input = scanner.nextLine();
-                     mainCipher.setoriginal = input;
                  command = scanner.nextLine();
-                 }
+                 
                  if (command.equals("encipher")){
-                     mainCipher.encipher();
+                    System.out.println(mainCipher.encipher(0, 3, true));
                  }
                  else if (command.equals("decipher")){
-                     mainCipher.decipher();
+                     System.out.println(mainCipher.decipher());
                  }
                  else if (command.equals("crack")){
                      mainCipher.crack();
                      break;
                  }
-                 else if (command.equals("offset")){
-                    System.out.println("Enter your offset");
-                    String offset = scanner.nextLine();
-                    System.out.println(mainCipher.offset(Integer.parseInt(offset)));
-                    break;
-                }
-                else if (command.equals("blockReverse")){
-                    System.out.println("Enter your blockSize");
-                    String blockSize = scanner.nextLine();
-                    mainCipher.original = input;
-                    System.out.println(mainCipher.blockReverse(Integer.parseInt(blockSize)));
-                    break;
-                }
                  else if (command.equals("quit")){
                      done = true;
                      break;

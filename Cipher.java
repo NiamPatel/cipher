@@ -112,7 +112,7 @@ public class Cipher {
                         String[] testcaseArr = testcase.split(" ");
                        char upper = testcaseArr[0];
                         char last = testcaseArr[-1];
-                        if (Character.isUpperCase(upper)) {
+                        if (upper.isUpperCase()) {
                             score++;
                             }
 

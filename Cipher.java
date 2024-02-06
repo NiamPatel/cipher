@@ -113,6 +113,9 @@ public class Cipher {
                         if (testcaseArr[0].isUpperCase()){
                             score ++;
                         }
+                        if(testcasreArr[-1] == "." || testcasreArr[-1] == "?" || testcasreArr[-1] == "!"){
+                            score++;
+                        }
                         score = matchDictionary(testcaseArr);
                         if (score >= bestScore) {
                             bestScore = score;

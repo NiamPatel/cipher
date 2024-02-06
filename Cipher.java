@@ -110,6 +110,9 @@ public class Cipher {
                         // Write the content to the file
                         String testcase = cipher(j, k, i);
                         String[] testcaseArr = testcase.split(" ");
+                        if (testcaseArr[0].isUpperCase()){
+                            score ++;
+                        }
                         score = matchDictionary(testcaseArr);
                         if (score >= bestScore) {
                             bestScore = score;

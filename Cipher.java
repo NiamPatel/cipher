@@ -1,6 +1,8 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Vector;
+
 
 public class Cipher {
     // try using lambac
@@ -21,15 +23,7 @@ public class Cipher {
         this.original = input;
     }
 
-    /**
-     * The encipher method returns the result of enciphering the given clear text
-     * string
-     * 
-     * @param s clear text string to encipher
-     * @return enciphered string
-     */
-
-    public String offset(int displacement, String newString) { // change to private later
+    private String offset(int displacement, String newString) { // change to private later
 
         if (displacement < 0) {
             displacement = displacement % 60 + 60;
@@ -47,7 +41,7 @@ public class Cipher {
         return new String(modifiedArr);
     }
 
-    public String blockReverse(int blockSize, String newString) { // change method name to reverseBlock
+    private String blockReverse(int blockSize, String newString) { // change method name to reverseBlock
         char[] stringArr = newString.toCharArray();
         char[] modifiedArr = new char[stringArr.length];
 
@@ -87,7 +81,14 @@ public class Cipher {
         return score;
     }
 
-    public String crack() {
+    /**
+     * The crack method returns the optimal decipher of the original string
+     * 
+     * 
+     * @return deciphered string
+     */
+    
+    public Vector<String> crack() {
         try (var writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
             // Write an empty string to clear the file
             writer.write("");
@@ -98,36 +99,38 @@ public class Cipher {
             
                 + e.getMessage());
         }
-        // System.out.println(this.original);
-        String bestDeciphered = null;
+        Vector<String> bestDeciphered = new Vector<>();
         int bestScore = -1;
-        int score = 0;
-
+        int score;
         for (int i = 0; i <= 1; i++) {
             for (int j = 0; j < this.original.length(); j++) {
                 for (int k = 1; k < this.original.length(); k++) {
                     try (var writer = new BufferedWriter(new FileWriter("all_crack.txt", true))) {
-                        // Write the content to the file
+                        score = 0;
                         String testcase = cipher(j, k, i);
                         String[] testcaseArr = testcase.split(" ");
-                       char upper = testcaseArr[0];
-                        char last = testcaseArr[-1];
-                        if (upper.isUpperCase()) {
+                        char upper = testcase.charAt(0);
+                        char last = testcase.charAt(testcase.length()-1);
+                        if (Character.isUpperCase(upper)) {
                             score++;
                             }
 
-                        if(last == "." || last == "?" || last == "!"){
+                        if(last == '.' || last == '?' || last == '!'){
                             score++;
                         }
-                        score = matchDictionary(testcaseArr);
+
+                        score += matchDictionary(testcaseArr);
                         if (score >= bestScore) {
                             bestScore = score;
-                            bestDeciphered = testcase;
+                            bestDeciphered.clear();
+                            bestDeciphered.add(testcase);
+                        } else if (score == bestScore){
+                            bestDeciphered.add(testcase);
                         }
-                        writer.write(testcase + score);
+                        writer.write(testcase + " " + score);
                         writer.newLine();
                     } catch (IOException e) {
-                        System.err.println("Error writing to the file: " + e.getMessage());
+                        System.err.println("jerryl screwed something up: " + e.getMessage());
                     }
                 } // end for reverseBlock combination
             }

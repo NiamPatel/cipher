@@ -112,11 +112,11 @@ public class Cipher {
                         char upper = testcase.charAt(0);
                         char last = testcase.charAt(testcase.length()-1);
                         if (Character.isUpperCase(upper)) {
-                            score++;
+                            score += 3;
                             }
 
                         if(last == '.' || last == '?' || last == '!'){
-                            score++;
+                            score += 2;
                         }
 
                         score += matchDictionary(testcaseArr);

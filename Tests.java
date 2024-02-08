@@ -19,8 +19,8 @@ public class Tests {
     public static void testEncipher(int offset, int blockLength, String clear, String expected) {
         String actual = null;
         try {
-            Cipher cipher = new Cipher(offset, blockLength);
-            actual = cipher.encipher(clear);
+            Cipher cipher = new Cipher(clear);
+            actual = cipher.cipher(offset, blockLength, 0);
         }
         catch (Exception e)
         {
@@ -32,8 +32,8 @@ public class Tests {
     public static void testDecipher(int offset, int blockLength, String enciphered, String expected) {
         String actual = null;
         try {
-            Cipher cipher = new Cipher(offset, blockLength);
-            actual = cipher.decipher(enciphered);
+            Cipher cipher = new Cipher(enciphered);
+            actual = cipher.cipher(-offset, blockLength, 1);
         }
         catch (Exception e)
         {
@@ -46,9 +46,10 @@ public class Tests {
         // Tests that encipher and decipher gives the original, assuming only supported characters are used.
         String actual = null;
         try {
-            Cipher cipher = new Cipher(offset, blockLength);
-            String enciphered = cipher.encipher(clear);
-            actual = cipher.decipher(enciphered);
+            Cipher cipher = new Cipher(clear);
+            String enciphered = cipher.cipher(offset, blockLength, 0);
+            cipher.setoriginal(enciphered);
+            actual = cipher.cipher(offset, blockLength, 0);
         }
         catch (Exception e)
         {
@@ -60,8 +61,9 @@ public class Tests {
     public static void testCrack(String enciphered, String expected) {
         // Tests for the static crack method, which relies on punctuation conventions to decipher
         String actual = null;
+        Cipher cipher = new Cipher(enciphered);
         try {
-            actual = Cipher.crack(enciphered);
+            actual = cipher.crack().toString();
         }
         catch (Exception e)
         {
@@ -87,7 +89,7 @@ public class Tests {
         testEncipher(1, 1, "Test offset one.", "Uftu\npggtfu\npof!");
         testDecipher(1, 1, "Uftu\npggtfu\npof!", "Test offset one.");
         testCrack("rHA?tiHJzrp!HwrxwD?tx t!B:H,;HApBAr,;rH,;xxA,tC,N?,;", "Test crack, which relies on punctuation conventions!");
-        testCrack("jwmy.f.xn.jwjm\n;sf.jhnyxzosNjb.Cjwjm\n;wj j.jhnyxzo.ty.yfqgfufhxjsn.sf.sn.ymlzfh.jwf.ijny.?;ynqfzyzr.kt.pwt\nyjs.jyxji.kt.ysjrwfl.jqlsnx.f.sn.C;sn", "<put deciphered text here>");
+        testCrack("jwmy.f.xn.jwjm\n;sf.jhnyxzosNjb.Cjwjm\n;wj j.jhnyxzo.ty.yfqgfufhxjsn.sf.sn.ymlzfh.jwf.ijny.?;ynqfzyzr.kt.pwt\nyjs.jyxji.kt.ysjrwfl.jqlsnx.f.sn.C;sn", "Injustice anywhere is a threat to justice everywhere. We are caught in an inescapable network of mutuality, tied in a single garment of destiny.");
         System.out.println("Finished tests, " + totalCorrect + " out of " + totalRun + " passed.");
     }
 }

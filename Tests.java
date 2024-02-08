@@ -10,13 +10,13 @@ public class Tests {
         totalRun++;
         if (expected.equals(actual)) {
             totalCorrect++;
-            System.out.println("Test passed: " + input + " -> " + actual);
+            System.out.println("Test passed: " + input + " -> " + actual);// passsed
         } else {
-            System.out.println("Test failed: " + input + " -> " + actual + ", expected " + expected);
+            System.out.println("Test failed: " + input + " -> " + actual + ", expected " + expected);//most of jerryls code
         }
     }
 
-    public static void testEncipher(int offset, int blockLength, String clear, String expected) {
+    public static void testEncipher(int offset, int blockLength, String clear, String expected) {//changed to work with our code
         String actual = null;
         try {
             Cipher cipher = new Cipher(clear);
@@ -29,11 +29,11 @@ public class Tests {
         reportResult(clear, expected, actual);
     }
 
-    public static void testDecipher(int offset, int blockLength, String enciphered, String expected) {
+    public static void testDecipher(int offset, int blockLength, String enciphered, String expected) {//chaged to word with our code
         String actual = null;
         try {
             Cipher cipher = new Cipher(enciphered);
-            actual = cipher.cipher(-offset, blockLength, 1);
+            actual = cipher.cipher(-offset, blockLength, 1);//we dont have enciper as it is jsut named cipher 
         }
         catch (Exception e)
         {
@@ -47,7 +47,7 @@ public class Tests {
         String actual = null;
         try {
             Cipher cipher = new Cipher(clear);
-            String enciphered = cipher.cipher(offset, blockLength, 0);
+            String enciphered = cipher.cipher(offset, blockLength, 0);//same method
             cipher.setoriginal(enciphered);
             actual = cipher.cipher(offset, blockLength, 0);
         }
@@ -63,7 +63,7 @@ public class Tests {
         String actual = null;
         Cipher cipher = new Cipher(enciphered);
         try {
-            actual = cipher.crack().toString();
+            actual = cipher.crack().toString();//not thd drug 
         }
         catch (Exception e)
         {

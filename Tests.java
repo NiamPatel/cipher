@@ -71,7 +71,7 @@ public class Tests {
         }
         reportResult(enciphered, expected, actual);
     }
-
+    
     public static void main(String[] args)
     {
         testEncipher(3, 2, "Test offset three, block length two.", "hWwvr;iihv;wkwhu.he;ronfo;qhwj;kzwAr");

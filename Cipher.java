@@ -2,10 +2,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.Arrays;
+import java.util.HashMap;
 
 
 public class Cipher {
     // try using lambac
+    private HashMap<Character, Integer> charHashMap = new HashMap<>();
     private char[] characters; // supported characters in specified order 
     private String original; // make private later, and add a get/set function
     private AllWords allwords = new AllWords("All_Words.txt");
@@ -19,12 +22,17 @@ public class Cipher {
     }
 
     public Cipher(String input) {
-        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
+        this.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
         this.original = input;
+        // Add character-index mappings to the HashMap
+        for (int i = 0; i < characters.length; i++) {
+            charHashMap.put(characters[i], i);
+        }
+
     }
 
     private String offset(int displacement, String newString) { // change to private later
-
+        //Arrays.indexOf(array, target)
         if (displacement < 0) {
             displacement = displacement % 60 + 60;
         }
@@ -34,7 +42,16 @@ public class Cipher {
         char[] modifiedArr = new char[len];
 
         for (int i = 0; i < len; i++) {
-            modifiedArr[i] = newString.charAt((i + displacement) % (len));
+            Integer charIndex = charHashMap.get(newString.charAt(i));
+            if (charIndex != null){
+                modifiedArr[i] = characters[((displacement+charIndex)%60 + 60)%60];
+            } else {
+                modifiedArr[i] = '$';
+            }
+            
+            
+            
+            newString.charAt((i + displacement) % (len));
             //modifiedArr[i] = stringArr[(i + displacement) % (stringArr.length)];
         }
         
@@ -88,12 +105,11 @@ public class Cipher {
      * @return deciphered string
      */
     
-    public Vector<String> crack() {
+    public String crack() {
         try (var writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
             // Write an empty string to clear the file
             writer.write("");
 
-            System.out.println("Successfully cleared the file.");
         } catch (IOException e) {
             System.err.println("Error clearing the file: "
             
@@ -112,11 +128,11 @@ public class Cipher {
                         char upper = testcase.charAt(0);
                         char last = testcase.charAt(testcase.length()-1);
                         if (Character.isUpperCase(upper)) {
-                            score += 3;
+                            score++;
                             }
 
                         if(last == '.' || last == '?' || last == '!'){
-                            score += 2;
+                            score += 3;
                         }
 
                         score += matchDictionary(testcaseArr);
@@ -130,11 +146,11 @@ public class Cipher {
                         writer.write(testcase + " " + score);
                         writer.newLine();
                     } catch (IOException e) {
-                        System.err.println("jerryl screwed something up: " + e.getMessage());
+                        System.err.println("jerryl screwed something up, dawg no i didn't i know niam be the one messing up files: " + e.getMessage());
                     }
-                } // end for reverseBlock combination
+                }
             }
         }
-        return bestDeciphered;
+        return bestDeciphered.get(0);
     }
 }

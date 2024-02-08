@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.IOException;//imports
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 
 public class AllWords {
 
-    private List<String> allWords;
+    private List<String> allWords;//initaliztion 
     private Set<String> stringHashSet;
 
     public AllWords(String filePath) {
         // Read words from an external file
         try {
             allWords = Files.lines(Paths.get(filePath))
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toList());//collectors
         } catch (IOException e) {
             e.printStackTrace(); // Handle the exception according to your needs
         }
@@ -25,12 +25,12 @@ public class AllWords {
 
         // Convert all words to lowercase
         stringHashSet = stringHashSet.stream()
-                                     .map(String::toLowerCase)
+                                     .map(String::toLowerCase)//made them all lowercase 
                                      .collect(Collectors.toSet());
     }
 
     // Getter method for stringHashSet
     public Set<String> getStringHashSet() {
-        return stringHashSet;
+        return stringHashSet;//returns the string of the has set
     }
 }

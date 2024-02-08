@@ -41,6 +41,7 @@ public class Input {
                     break;
                 } else if (command.equalsIgnoreCase("crack")) {
                     System.out.println(mainCipher.crack());
+
                     break;
                 } else if (command.equalsIgnoreCase("quit")) {
                     done = true;

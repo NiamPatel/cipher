@@ -163,7 +163,7 @@ public class Cipher {
                         if (Character.isUpperCase(upper)) {
                             score += 3;
                         }
-                        if (last == '.' || last == '?' || last == '!') {
+                        if (last == '.' || last == '?' || last == '!') {//if puncation then it prob better
                             score += 2;
                         }
                         // Further increase the score based on dictionary matches.

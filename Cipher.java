@@ -80,7 +80,7 @@ public class Cipher {
     public String encipher(int displacement, int blockSize) {
     // Call the cipher method with order 0 for enciphering
     return cipher(displacement, blockSize, 0);
-}
+    }
 
 public String decipher(int displacement, int blockSize) {
     // Call the cipher method with order 1 for deciphering

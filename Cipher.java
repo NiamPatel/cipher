@@ -1,128 +1,69 @@
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
-/**
- * The Cipher class implements methods for encrypting and decrypting strings using a simple cipher mechanism,
- * as well as attempting to crack the cipher through brute force.
- */
 public class Cipher {
-    // Array of characters that are allowed in the cipher text.
-    private char[] characters; 
-    // The original text that will be encrypted or decrypted.
-    private String original; 
-    // Reference to an AllWords object which loads a dictionary from a file for the purpose of cracking the cipher.
+    private char[] characters;
+    private String original;
     private AllWords allwords = new AllWords("All_Words.txt");
 
-    /**
-     * Constructor initializes a new instance of the Cipher class with a specific input string.
-     *
-     * @param input The string to be encrypted or decrypted.
-     */
-   
-    private Cipher(String input) {
-        // Initialize the characters array with a predefined set of characters that includes
-        // uppercase and lowercase letters, spaces, new lines, and some punctuation marks.
+    public Cipher(String input) {
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
-        // Set the original string to the input provided.
         this.original = input;
     }
 
-    /**
-     * Getter for the original string.
-     *
-     * @return The original text.
-     */
     public String getOriginal() {
         return original;
     }
 
-    /**
-     * Setter for the original string. Allows updating the original text.
-     *
-     * @param newString The new text to set as the original.
-     */
     public void setOriginal(String newString) {
         this.original = newString;
     }
 
-    /**
-     * Encodes or decodes the original string by applying an offset and block reversal based on the parameters.
-     * The order of these operations can be specified.
-     *
-     * @param displacement The number of positions each character in the string is to be shifted.
-     * @param blockSize The size of the blocks to be reversed.
-     * @param order Specifies the order of operations: 0 for block reversal first, 1 for offset first.
-     * @return The modified string after encoding or decoding.
-     */
     public String cipher(int displacement, int blockSize, int order) {
-        String modified = "";
-        // Depending on the order, apply offset and then block reverse, or vice versa.
-        if (order != 0) {
-            modified = offset(displacement, this.original);
+        String modified = original;
+        if (order == 0) {
             modified = blockReverse(blockSize, modified);
-        } else {
-            modified = blockReverse(blockSize, this.original);
             modified = offset(displacement, modified);
+        } else {
+            modified = offset(displacement, modified);
+            modified = blockReverse(blockSize, modified);
         }
-
         return modified;
     }
 
-    /**
-     * Applies a displacement offset to each character in the input string.
-     *
-     * @param displacement The number of positions to shift each character.
-     * @param newString The string to be modified.
-     * @return A new string with each character shifted by the specified displacement.
-     */
     public String encipher(int displacement, int blockSize) {
-    // Call the cipher method with order 0 for enciphering
-    return cipher(displacement, blockSize, 0);
+        return cipher(displacement, blockSize, 1);
     }
 
-public String decipher(int displacement, int blockSize) {
-    // Call the cipher method with order 1 for deciphering
-    return cipher(displacement, blockSize, 1);
-}
-
-    private String offset(int displacement, String newString) {
-        // Adjust negative displacement to ensure it wraps around correctly.
-        if (displacement < 0) {
-            displacement = displacement % 60 + 60;
-        }
-        final int len = newString.length();
-        char[] modifiedArr = new char[len];
-
-        // Shift each character in the string by the displacement value.
-        for (int i = 0; i < len; i++) {
-            modifiedArr[i] = newString.charAt((i + displacement) % (len));
-        }
-
-        return new String(modifiedArr);
+    public String decipher(int displacement, int blockSize) {
+        return cipher(-displacement, blockSize, 0);
     }
 
-    /**
-     * Reverses characters within blocks of the specified size in the input string.
-     *
-     * @param blockSize The size of each block that is to be reversed.
-     * @param newString The string to be modified.
-     * @return A new string with blocks of characters reversed.
-     */
-    private String blockReverse(int blockSize, String newString) {
-        char[] stringArr = newString.toCharArray();
-        char[] modifiedArr = new char[stringArr.length];
-
-        // Iterate over the string in blocks and reverse each block.
-        for (int i = 0; i < Math.ceil((double) stringArr.length / blockSize); i++) {
-            int start = i * blockSize;
-            int end = Math.min((i + 1) * blockSize, stringArr.length) - 1;
-            for (int j = start; j <= end; j++) {
-                modifiedArr[j] = stringArr[end - (j - start)];
+    private String offset(int displacement, String str) {
+        StringBuilder result = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            int index = new String(characters).indexOf(c);
+            if (index != -1) {
+                index = (index + displacement + characters.length) % characters.length;
+                result.append(characters[index]);
+            } else {
+                result.append(c); // Keep characters not found in the array as is.
             }
         }
-        return new String(modifiedArr);
+        return result.toString();
+    }
+
+    private String blockReverse(int blockSize, String str) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < str.length(); i += blockSize) {
+            int end = Math.min(i + blockSize, str.length());
+            String block = new StringBuilder(str.substring(i, end)).reverse().toString();
+            result.append(block);
+        }
+        return result.toString();
     }
 
     /**

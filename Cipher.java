@@ -20,7 +20,13 @@ public class Cipher {
      *
      * @param input The string to be encrypted or decrypted.
      */
-    public Cipher(String input) {
+    public String encipher(int displacement, int blockSize, 0){
+        return cipher(int displacement, int blockSize, 0);
+    }
+    public String decipher(int displacement, int blockSize, 0){
+        return cipher(int displacement, int blockSize, 1);
+    }
+    private Cipher(String input) {
         // Initialize the characters array with a predefined set of characters that includes
         // uppercase and lowercase letters, spaces, new lines, and some punctuation marks.
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();

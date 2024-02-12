@@ -20,11 +20,12 @@ public class Cipher {
      *
      * @param input The string to be encrypted or decrypted.
      */
-    public String encipher(int displacement, int blockSize, 0){
-        return cipher(int displacement, int blockSize, 0);
+   public String encipher(int displacement, int blockSize) {
+        return cipher(displacement, blockSize, 0);
     }
-    public String decipher(int displacement, int blockSize, 0){
-        return cipher(int displacement, int blockSize, 1);
+
+    public String decipher(int displacement, int blockSize) {
+        return cipher(displacement, blockSize, 1);
     }
     private Cipher(String input) {
         // Initialize the characters array with a predefined set of characters that includes

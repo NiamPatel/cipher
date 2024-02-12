@@ -77,6 +77,16 @@ public class Cipher {
      * @param newString The string to be modified.
      * @return A new string with each character shifted by the specified displacement.
      */
+    public String encipher(int displacement, int blockSize) {
+    // Call the cipher method with order 0 for enciphering
+    return cipher(displacement, blockSize, 0);
+}
+
+public String decipher(int displacement, int blockSize) {
+    // Call the cipher method with order 1 for deciphering
+    return cipher(displacement, blockSize, 1);
+}
+
     private String offset(int displacement, String newString) {
         // Adjust negative displacement to ensure it wraps around correctly.
         if (displacement < 0) {
@@ -191,10 +201,3 @@ public class Cipher {
         return bestDeciphered;
     }
 }
-public String encipher(int displacement, int blockSize) {
-        return cipher(displacement, blockSize, 0);
-    }
-
-    public String decipher(int displacement, int blockSize) {
-        return cipher(displacement, blockSize, 1);
-    }

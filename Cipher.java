@@ -39,7 +39,7 @@ public class Cipher {
     }
 
     public String decipher(int displacement, int blockSize) {
-        return cipher(-displacement, blockSize, 0);
+        return cipher(displacement, blockSize, 0);
     }
 
     private String offset(int displacement, String str) {

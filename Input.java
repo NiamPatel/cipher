@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Input {
     public static void main(String[] args) {
-        // Greet the user and provide instructions for input formatting.
+        // provide instructions for input formatting.
         System.out.println("Welcome to Cipher! Please enter all text as a single line, substituting \\n for newline characters.");
 
-        // Flag to keep track of whether the user wants to exit the program.
+        // whether the user wants to exit the program.
         boolean done = false;
 
         // Variable to store user commands.
@@ -14,7 +14,6 @@ public class Input {
         // Create a Scanner object to read input from the command line.
         Scanner scanner = new Scanner(System.in);
 
-        // Main loop to keep the program running until the user decides to quit.
         while (!done) {
             System.out.println("Enter your command (encipher, decipher, crack, or quit):");
             // Read the user's command.

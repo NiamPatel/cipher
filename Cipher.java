@@ -1,80 +1,83 @@
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Cipher {
-    private char[] characters;
-    private String original;
-    private AllWords allwords = new AllWords("All_Words.txt");
+    private static HashMap<Character, Integer> charHashMap = new HashMap<>();
+    private static char[] characters;
+    private static AllWords allwords = new AllWords("All_Words.txt");
+    private static int offset;
+    private static int blockSize;
 
-    public Cipher(String input) {
-        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
-        this.original = input;
+    public Cipher(int offset, int blockSize) {
+        this.offset = offset;
+        this.blockSize = blockSize;
+        this.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
+        for (int i = 0; i < characters.length; i++) {
+            charHashMap.put(characters[i], i);
+        }
     }
 
-    public String getOriginal() {
-        return original;
+    private static String offset(int displacement, String newString) {
+        if (displacement < 0) {
+            displacement = displacement % 60 + 60;
+        }
+        final int len = newString.length();
+        char[] modifiedArr = new char[len];
+
+        for (int i = 0; i < len; i++) {
+            Integer charIndex = charHashMap.get(newString.charAt(i));
+            if (charIndex != null){
+                modifiedArr[i] = characters[((displacement+charIndex)%60 + 60)%60];
+            } else {
+                modifiedArr[i] = '$';
+            }
+        }
+        return new String(modifiedArr);
     }
 
-    public void setOriginal(String newString) {
-        this.original = newString;
+    private static String blockReverse(int blockSize, String newString) {
+        char[] stringArr = newString.toCharArray();
+        char[] modifiedArr = new char[stringArr.length];
+
+        for (int i = 0; i < Math.ceil((double) stringArr.length / blockSize); i++) {
+            int start = i * blockSize;
+            int end = Math.min((i + 1) * blockSize, stringArr.length) - 1;
+            for (int j = start; j <= end; j++) {
+                modifiedArr[j] = stringArr[end - (j - start)];
+            }
+        }
+        return new String(modifiedArr);
     }
 
-    public String cipher(int displacement, int blockSize, int order) {
-        String modified = original;
-        if (order == 0) {
+    private static String cipher(String original, int order) {
+        String modified = "";
+        if (order != 0) {
+            modified = offset(offset, original);
             modified = blockReverse(blockSize, modified);
-            modified = offset(displacement, modified);
         } else {
-            modified = offset(displacement, modified);
-            modified = blockReverse(blockSize, modified);
+            modified = blockReverse(blockSize, original);
+            modified = offset(offset, modified);
         }
         return modified;
     }
 
-    public String encipher(int displacement, int blockSize) {
-        return cipher(displacement, blockSize, 1);
+    public static String encipher(String original) {
+        return cipher(original, 0);
     }
 
-    public String decipher(int displacement, int blockSize) {
-        return cipher(-displacement, blockSize, 0);
+    public static String decipher(String original) {
+        Cipher.offset = -offset;
+        String modified = cipher(original, 1);
+        Cipher.offset = -offset;
+        return modified;
     }
 
-    private String offset(int displacement, String str) {
-        StringBuilder result = new StringBuilder();
-        for (char c : str.toCharArray()) {
-            int index = new String(characters).indexOf(c);
-            if (index != -1) {
-                index = (index + displacement + characters.length) % characters.length;
-                result.append(characters[index]);
-            } else {
-                result.append(c); // Keep characters not found in the array as is.
-            }
-        }
-        return result.toString();
-    }
-
-    private String blockReverse(int blockSize, String str) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < str.length(); i += blockSize) {
-            int end = Math.min(i + blockSize, str.length());
-            String block = new StringBuilder(str.substring(i, end)).reverse().toString();
-            result.append(block);
-        }
-        return result.toString();
-    }
-
-    /**
-     * Compares each word in the input array with a dictionary and counts matches.
-     *
-     * @param stringArr An array of words to be checked against the dictionary.
-     * @return The number of words in the input array that match words in the dictionary.
-     */
-    private int matchDictionary(String[] stringArr) {
+    private static int matchDictionary(String[] stringArr) {
         int score = 0;
-        // Increment score for each word found in the dictionary.
         for (String word : stringArr) {
             if (allwords.getStringHashSet().contains(word.toLowerCase())) {
                 score++;
@@ -83,62 +86,51 @@ public class Cipher {
         return score;
     }
 
-    /**
-     * Attempts to crack the cipher by trying various combinations of displacements and block sizes,
-     * scoring each attempt based on dictionary matches and certain heuristics.
-     *
-     * @return A Vector of the best deciphered strings based on the scoring mechanism.
-     */
-    public Vector<String> crack() {
-        // Clear the file at the beginning of the crack attempt.
+    public static String crack(String original) {
         try (var writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
             writer.write("");
-            System.out.println("Successfully cleared the file.");
         } catch (IOException e) {
             System.err.println("Error clearing the file: " + e.getMessage());
         }
 
         Vector<String> bestDeciphered = new Vector<>();
-        int bestScore = -1; // Initialize with a score that can be easily surpassed.
+        int bestScore = -1;
         int score;
-        // Nested loops to try various combinations of displacement, block size, and operation order.
-        for (int i = 0; i <= 1; i++) { // Loop over the two possible orders of operations.
-            for (int j = 0; j < this.original.length(); j++) { // Loop over possible displacements.
-                for (int k = 1; k < this.original.length(); k++) { // Loop over possible block sizes.
+        for (int i = 0; i < 1; i++) {
+            for (int j = 0; j < original.length(); j++) {
+                for (int k = 1; k < original.length(); k++) {
                     try (var writer = new BufferedWriter(new FileWriter("all_crack.txt", true))) {
                         score = 0;
-                        String testcase = cipher(j, k, i);
+                        Cipher.offset = j;
+                        Cipher.blockSize = k;
+                        String testcase = decipher(original);
                         String[] testcaseArr = testcase.split(" ");
                         char upper = testcase.charAt(0);
-                        char last = testcase.charAt(testcase.length() - 1);
-                        // Add to score based on the capitalization of the first letter and punctuation at the end.
+                        char last = testcase.charAt(testcase.length()-1);
                         if (Character.isUpperCase(upper)) {
+                            score++;
+                        }
+
+                        if(last == '.' || last == '?' || last == '!'){
                             score += 3;
                         }
-                        if (last == '.' || last == '?' || last == '!') {//if puncation then it prob better
-                            score += 2;
-                        }
-                        // Further increase the score based on dictionary matches.
+
                         score += matchDictionary(testcaseArr);
-                        // Update the best score and best deciphered text if the current score is higher.
-                        if (score > bestScore) {
+                        if (score >= bestScore) {
                             bestScore = score;
                             bestDeciphered.clear();
                             bestDeciphered.add(testcase);
-                        } else if (score == bestScore) {
-                            // If the current score equals the best score, add the current text to the list of best texts.
+                        } else if (score == bestScore){
                             bestDeciphered.add(testcase);
                         }
-                        // Write each attempt and its score to a file for analysis.
                         writer.write(testcase + " " + score);
                         writer.newLine();
                     } catch (IOException e) {
-                        System.err.println("Error: " + e.getMessage());
+                        System.err.println("Error writing to file: " + e.getMessage());
                     }
                 }
             }
         }
-        // Return the vector containing the best deciphered strings.
-        return bestDeciphered;
+        return bestDeciphered.get(0);
     }
 }

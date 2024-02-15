@@ -6,12 +6,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Cipher {
-    private static HashMap<Character, Integer> charHashMap = new HashMap<>();
-    private static char[] characters;
-    private static AllWords allwords = new AllWords("All_Words.txt");
-    private static int offset;
-    private static int blockSize;
-    private static char[] curStr; 
+    private HashMap<Character, Integer> charHashMap = new HashMap<>();
+    private char[] characters;
+    private AllWords allwords = new AllWords("All_Words.txt");
+    private int offset;
+    private int blockSize;
+    private char[] curStr;
+    private char[] originalStr; 
 
     public Cipher(int offset, int blockSize) {
         this.offset = offset;
@@ -60,24 +61,28 @@ public class Cipher {
 
     private String cipher(int order) {
         if (order != 0) {
-            offset(offset);
+            offset(-offset);
             blockReverse(blockSize);
         } else {
             blockReverse(blockSize);
-            offset(-offset);
+            offset(offset);
         }
-        return curStr.toString();
+        return new String(curStr);
     }
 
     public String encipher(String original) {
+        curStr = original.toCharArray();
+        originalStr = original.toCharArray();
         return cipher(0);
     }
 
     public String decipher(String original) {
+        curStr = original.toCharArray();
+        originalStr = original.toCharArray();
         return cipher(1);
     }
 
-    private static int matchDictionary(String[] stringArr) {
+    private int matchDictionary(String[] stringArr) {
         int score = 0;
         for (String word : stringArr) {
             if (allwords.getStringHashSet().contains(word.toLowerCase())) {
@@ -87,8 +92,10 @@ public class Cipher {
         return score;
     }
 
-    public String crack(String original) {
-        curStr = original.toCharArray();
+    public static String crack(String original) {
+        Cipher cipher = new Cipher(0, 0);
+        cipher.curStr = original.toCharArray();
+        cipher.originalStr = original.toCharArray();
         try (var writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
             writer.write("");
         } catch (IOException e) {
@@ -101,14 +108,18 @@ public class Cipher {
         for (int i = 0; i < 1; i++) {
             for (int j = 0; j < original.length(); j++) {
                 for (int k = 1; k < original.length(); k++) {
-                    try (var writer = new BufferedWriter(new FileWriter("all_crack.txt", true))) {
                         score = 0;
-                        Cipher.offset = j;
-                        Cipher.blockSize = k;
-                        String testcase = cipher(1);
+                        cipher.curStr = Arrays.copyOf(cipher.originalStr, cipher.originalStr.length);
+                        score = 0;
+                        cipher.offset = j;
+                        cipher.blockSize = k;
+
+                        
+                        String testcase = cipher.cipher(1);
                         String[] testcaseArr = testcase.split(" ");
                         char upper = testcase.charAt(0);
                         char last = testcase.charAt(testcase.length()-1);
+
                         if (Character.isUpperCase(upper)) {
                             score++;
                         }
@@ -117,7 +128,7 @@ public class Cipher {
                             score += 3;
                         }
 
-                        score += matchDictionary(testcaseArr);
+                        score += cipher.matchDictionary(testcaseArr);
                         if (score >= bestScore) {
                             bestScore = score;
                             bestDeciphered.clear();
@@ -125,11 +136,6 @@ public class Cipher {
                         } else if (score == bestScore){
                             bestDeciphered.add(testcase);
                         }
-                        writer.write(testcase + " " + score);
-                        writer.newLine();
-                    } catch (IOException e) {
-                        System.err.println("Error writing to file: " + e.getMessage());
-                    }
                 }
             }
         }

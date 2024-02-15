@@ -1,9 +1,9 @@
-import java.io.BufferedWriter;//imports
-import java.io.FileWriter;//file writter for taliing to all_crack
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Vector;//for crack class
+import java.util.Vector;
 import java.util.Arrays;
-import java.util.HashMap;//to make code run faster
+import java.util.HashMap;
 
 public class Cipher {
     private static HashMap<Character, Integer> charHashMap = new HashMap<>();
@@ -11,88 +11,73 @@ public class Cipher {
     private static AllWords allwords = new AllWords("All_Words.txt");
     private static int offset;
     private static int blockSize;
+    private static char[] curStr; 
 
-    public Cipher(int offset, int blockSize) {//mr wastons made jerryal change this
+    public Cipher(int offset, int blockSize) {
         this.offset = offset;
         this.blockSize = blockSize;
-        this.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();//all the letters i think idk how many there are
+        this.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \n,;:.!?".toCharArray();
+        this.charHashMap = new HashMap<>();
         for (int i = 0; i < characters.length; i++) {
-            charHashMap.put(characters[i], i);//makes it run 0 1 time 
+            charHashMap.put(characters[i], i);
         }
+        this.allwords = new AllWords("All_Words.txt");
     }
-/* precondition: 0 <= offset < 60, 1 <= blockSize */
 
-    /**
-     * Cipher constructor
-     * precondition: 0 <= offset < 60, 1 <= blockSize
-     * @param offset offset to index in characters array
-     * @param blockSize size of blocks to reverse
-     */
-    private static String offset(int displacement, String newString) {
+    private void offset(int displacement) {
         if (displacement < 0) {
             displacement = displacement % 60 + 60;
         }
-        final int len = newString.length();
-        char[] modifiedArr = new char[len];
+        final int len = curStr.length;
+        
 
         for (int i = 0; i < len; i++) {
-            Integer charIndex = charHashMap.get(newString.charAt(i));//uses the hash map to make ti run faster
+            Integer charIndex = charHashMap.get(curStr[i]);
             if (charIndex != null){
-                modifiedArr[i] = characters[((displacement+charIndex)%60 + 60)%60];
+                curStr[i] = characters[((displacement+charIndex)%60 + 60)%60];
             } else {
-                modifiedArr[i] = '$';
+                curStr[i] = '$';
             }
         }
-        return new String(modifiedArr);
     }
 
-    private static String blockReverse(int blockSize, String newString) {
-        char[] stringArr = newString.toCharArray();
-        char[] modifiedArr = new char[stringArr.length];
-
-        for (int i = 0; i < Math.ceil((double) stringArr.length / blockSize); i++) {
+    private void blockReverse(int blockSize) {
+        for (int i = 0; i < Math.ceil((double) curStr.length / blockSize); i++) {
             int start = i * blockSize;
-            int end = Math.min((i + 1) * blockSize, stringArr.length) - 1;
-            for (int j = start; j <= end; j++) {
-                modifiedArr[j] = stringArr[end - (j - start)];
+            int end = Math.min((i + 1) * blockSize, curStr.length) - 1;
+            int l = start;
+            int r = end;
+            while (l < r){
+                char temp = curStr[l];
+                curStr[l] = curStr[r];
+                curStr[r] = temp;
+                l++;
+                r--;
+
             }
         }
-        return new String(modifiedArr);
     }
 
-    private static String cipher(String original, int order) {
-        String modified = "";
+    private String cipher(int order) {
         if (order != 0) {
-            modified = offset(offset, original);
-            modified = blockReverse(blockSize, modified);
+            offset(offset);
+            blockReverse(blockSize);
         } else {
-            modified = blockReverse(blockSize, original);
-            modified = offset(offset, modified);
+            blockReverse(blockSize);
+            offset(-offset);
         }
-        return modified;
+        return curStr.toString();
     }
 
-    public static String encipher(String original) {
-        return cipher(original, 0);
+    public String encipher(String original) {
+        return cipher(0);
     }
-/**
-     * The encipher method returns the result of enciphering the given clear text string 
-     * @param s clear text string to encipher
-     * @return enciphered string
-     */
-    public static String decipher(String original) {
-        Cipher.offset = -offset;
-        String modified = cipher(original, 1);
-        Cipher.offset = -offset;
-        return modified;
-    }
-    /**
-     * The decipher method returns the result of deciphering the given enciphered string
-     * @param enciphered enciphered string to decipher
-     * @return clear text deciphered string
-     */
 
-    private static int matchDictionary(String[] stringArr) {//helps crack
+    public String decipher(String original) {
+        return cipher(1);
+    }
+
+    private static int matchDictionary(String[] stringArr) {
         int score = 0;
         for (String word : stringArr) {
             if (allwords.getStringHashSet().contains(word.toLowerCase())) {
@@ -102,17 +87,14 @@ public class Cipher {
         return score;
     }
 
-    public static String crack(String original) {
+    public String crack(String original) {
+        curStr = original.toCharArray();
         try (var writer = new BufferedWriter(new FileWriter("all_crack.txt"))) {
             writer.write("");
         } catch (IOException e) {
             System.err.println("Error clearing the file: " + e.getMessage());
         }
-/**
-     * The static crack method attempts to decipher a string that was enciphered with unknown offset and block size
-     * @param enciphered
-     * @return
-     */
+
         Vector<String> bestDeciphered = new Vector<>();
         int bestScore = -1;
         int score;
@@ -123,7 +105,7 @@ public class Cipher {
                         score = 0;
                         Cipher.offset = j;
                         Cipher.blockSize = k;
-                        String testcase = decipher(original);
+                        String testcase = cipher(1);
                         String[] testcaseArr = testcase.split(" ");
                         char upper = testcase.charAt(0);
                         char last = testcase.charAt(testcase.length()-1);

@@ -87,7 +87,7 @@ public class Tests {
         testEncipher(1, 1, "Test offset one.", "Uftu\npggtfu\npof!");
         testDecipher(1, 1, "Uftu\npggtfu\npof!", "Test offset one.");
         testCrack("rHA?tiHJzrp!HwrxwD?tx t!B:H,;HApBAr,;rH,;xxA,tC,N?,;", "Test crack, which relies on punctuation conventions!");
-        testCrack("jwmy.f.xn.jwjm\n;sf.jhnyxzosNjb.Cjwjm\n;wj j.jhnyxzo.ty.yfqgfufhxjsn.sf.sn.ymlzfh.jwf.ijny.?;ynqfzyzr.kt.pwt\nyjs.jyxji.kt.ysjrwfl.jqlsnx.f.sn.C;sn", "<put deciphered text here>");
+        testCrack("jwmy.f.xn.jwjm\n;sf.jhnyxzosNjb.Cjwjm\n;wj j.jhnyxzo.ty.yfqgfufhxjsn.sf.sn.ymlzfh.jwf.ijny.?;ynqfzyzr.kt.pwt\nyjs.jyxji.kt.ysjrwfl.jqlsnx.f.sn.C;sn", "Injustice anywhere is a threat to justice everywhere. We are caught in an inescapable network of mutuality, tied in a single garment of destiny.");
         System.out.println("Finished tests, " + totalCorrect + " out of " + totalRun + " passed.");
     }
 }

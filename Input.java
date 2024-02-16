@@ -35,21 +35,23 @@ public class Input {
                         System.out.println("Enter the string to encipher:");
                         String toEncipher = scanner.nextLine();
                         System.out.println("Enciphered string:");
+                        toEncipher = toEncipher.replace("\\\\n", "\n");
                         System.out.println(mainCipher.encipher(toEncipher));
                     } else {
                         System.out.println("Enter the string to decipher:");
                         String toDecipher = scanner.nextLine();
                         System.out.println("Deciphered string:");
+                        toDecipher = toEncipher.replace("\\\\n", "\n");
                         System.out.println(mainCipher.decipher(toDecipher));
                     }
+
                     break;
                 case "crack":
                     // Since cracking doesn't require initial offset and block size, we use default or any values
                     System.out.println("Enter the string to crack:");
                     String toCrack = scanner.nextLine();
-                    Cipher crackCipher = new Cipher(0, 1); // Using arbitrary initial values
                     System.out.println("Cracked string:");
-                    System.out.println(crackCipher.crack(toCrack));
+                    System.out.println(Cipher.crack(toCrack));
                     break;
                 case "quit":
                     done = true;

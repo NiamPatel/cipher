@@ -127,6 +127,9 @@ public class Cipher {
                         if(last == '.' || last == '?' || last == '!'){
                             score += 3;
                         }
+                        if(last ==","){
+                            score+=1:
+                                }
 
                         score += cipher.matchDictionary(testcaseArr);
                         if (score >= bestScore) {
